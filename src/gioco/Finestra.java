@@ -1,4 +1,8 @@
-package Gioco;
+package gioco;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
@@ -18,10 +22,27 @@ public class Finestra extends Application {
 		stage.setScene(scene);
 		stage.setTitle("GiocoInformatica");
 		stage.show();
-
+		
+		String rigaLetta;
+		try (
+				FileReader flussoCaratteri = new FileReader("c:\\Users\\francescofondacci\\Desktop\\livello1.txt");
+				BufferedReader lettoreDiRighe = new BufferedReader(flussoCaratteri);
+				){
+			
+			lettoreDiRighe.readLine();
+			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
+				switch(rigaLetta) {
+				case "A":
+					
+				}
+			}
+		} catch (IOException m) {
+			m.printStackTrace();
+		}
 	}
+	
 
 	public static void main(String[] args) {
 		launch();
 	}
-	}
+}
