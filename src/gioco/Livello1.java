@@ -1,8 +1,10 @@
 package gioco;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +12,7 @@ import javafx.scene.layout.GridPane;
 
 public class Livello1{
 	
-	private static final int TILE_SIZE = 47;
+	private static final int TILE_SIZE = 60;
 	private Scene scene;
 
 	public Livello1(){
@@ -32,8 +34,10 @@ public class Livello1{
 		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
 		Image c4 = new Image(getClass().getResourceAsStream("4.png"));
 		try (
-				FileReader flussoCaratteri = new FileReader("C:\\Users\\franc\\OneDrive\\Desktop\\livello1.txt");//TODO modificare percorso
-				BufferedReader lettoreDiRighe = new BufferedReader(flussoCaratteri);
+				InputStream is = Livello1.class.getResourceAsStream("\\livelli\\livello1.txt");
+		        InputStreamReader isr = new InputStreamReader(is);
+		        BufferedReader br = new BufferedReader(isr);
+				BufferedReader lettoreDiRighe = new BufferedReader(br);
 				){
 			String rigaLetta;
 			int y=0;
