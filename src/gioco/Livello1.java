@@ -1,0 +1,113 @@
+package gioco;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+
+public class Livello1{
+	
+	private static final int TILE_SIZE = 47;
+	private Scene scene;
+
+	public Livello1(){
+		GridPane principale = new GridPane();
+		Image a = new Image(getClass().getResourceAsStream("a.png"));
+		Image b = new Image(getClass().getResourceAsStream("b.png"));
+		Image c = new Image(getClass().getResourceAsStream("c.png"));
+		Image d = new Image(getClass().getResourceAsStream("d.png"));
+		Image e = new Image(getClass().getResourceAsStream("e.png"));
+		Image h = new Image(getClass().getResourceAsStream("h.png"));
+		Image i = new Image(getClass().getResourceAsStream("i.png"));
+		Image l = new Image(getClass().getResourceAsStream("l.png"));
+		Image m = new Image(getClass().getResourceAsStream("m.png"));
+		Image n = new Image(getClass().getResourceAsStream("n.png"));
+		Image o = new Image(getClass().getResourceAsStream("o.png"));
+		Image p = new Image(getClass().getResourceAsStream("p.png"));
+		Image c1 = new Image(getClass().getResourceAsStream("1.png"));
+		Image c2 = new Image(getClass().getResourceAsStream("2.png"));
+		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
+		Image c4 = new Image(getClass().getResourceAsStream("4.png"));
+		try (
+				FileReader flussoCaratteri = new FileReader("C:\\Users\\franc\\OneDrive\\Desktop\\livello1.txt");//TODO modificare percorso
+				BufferedReader lettoreDiRighe = new BufferedReader(flussoCaratteri);
+				){
+			String rigaLetta;
+			int y=0;
+			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
+				for (int x = 0; x < rigaLetta.length(); x++) {
+					//indica la posizione del carattere da sostituire
+					char carattere = rigaLetta.charAt(x);
+					ImageView tileView = new ImageView();
+				
+					switch(carattere) {
+					case'a':
+						tileView.setImage(a);
+						break;
+					case'b':
+						tileView.setImage(b);
+						break;
+					case'c':
+						tileView.setImage(c);
+						break;
+					case'd':
+						tileView.setImage(d);
+						break;
+					case'e':
+						tileView.setImage(e);
+						break;
+					case'h':
+						tileView.setImage(h);
+						break;
+					case'i':
+						tileView.setImage(i);
+						break;
+					case'l':
+						tileView.setImage(l);
+						break;
+					case'm':
+						tileView.setImage(m);
+						break;
+					case'n':
+						tileView.setImage(n);
+						break;
+					case'o':
+						tileView.setImage(o);
+						break;
+					case'p':
+						tileView.setImage(p);
+						break;
+					/*case'1':
+						tileView.setImage(c1);
+						break;*/
+					case'2':
+						tileView.setImage(c2);
+						break;
+					case'3':
+						tileView.setImage(c3);
+						break;
+					case'4':
+						tileView.setImage(c4);
+						break;
+					default:
+						tileView.setImage(c1);
+					}
+					tileView.setFitWidth(TILE_SIZE);
+                    tileView.setFitHeight(TILE_SIZE);
+                    principale.add(tileView, x, y);
+				}
+				y++;
+			}
+			scene = new Scene(principale);
+		} catch (IOException err) {
+			err.printStackTrace();
+		}
+	}
+
+	public Scene getScene() {
+		return scene;
+	}
+}
