@@ -1,8 +1,10 @@
 package gioco;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +12,7 @@ import javafx.scene.layout.GridPane;
 
 public class Livello1{
 	
-	private static final int TILE_SIZE = 47;
+	private static final int TILE_SIZE = 60;
 	private Scene scene;
 	boolean collisioni[][]=new boolean[33][17];
 	int y=0;
@@ -34,16 +36,20 @@ public class Livello1{
 		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
 		Image c4 = new Image(getClass().getResourceAsStream("4.png"));
 		try (
-				FileReader flussoCaratteri = new FileReader("livelli\\livello1.txt");//TODO modificare percorso
-				BufferedReader lettoreDiRighe = new BufferedReader(flussoCaratteri);
+				InputStream is = Livello1.class.getResourceAsStream("\\livelli\\livello1.txt");
+		        InputStreamReader isr = new InputStreamReader(is);
+		        BufferedReader br = new BufferedReader(isr);
+				BufferedReader lettoreDiRighe = new BufferedReader(br);
+
 				){
 			String rigaLetta;
-			int y=0;
+	
 			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
 				for (int x = 0; x < rigaLetta.length(); x++) {
 					//indica la posizione del carattere da sostituire
 					char carattere = rigaLetta.charAt(x);
 					ImageView tileView = new ImageView();
+
 					tileView.setFitWidth(500);
 					tileView.setFitHeight(500);
 					
@@ -101,15 +107,15 @@ public class Livello1{
 						break;*/
 					case'2':
 						tileView.setImage(c2);
-						collisioni[x][y]=true;
+						collisioni[x][y]=false;
 						break;
 					case'3':
 						tileView.setImage(c3);
-						collisioni[x][y]=true;
+						collisioni[x][y]=false;
 						break;
 					case'4':
 						tileView.setImage(c4);
-						collisioni[x][y]=true;
+						collisioni[x][y]=false;
 						break;
 					default:
 						tileView.setImage(c1);

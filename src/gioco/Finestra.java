@@ -20,8 +20,8 @@ public class Finestra extends Application {
 		stage.setScene(scene);
 		stage.setTitle("GiocoInformatica");
 		stage.show();
-		
 	}
+	
 
 	public static void main(String[] args) {
 		launch();
