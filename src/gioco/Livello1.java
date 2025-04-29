@@ -14,6 +14,8 @@ public class Livello1{
 	
 	private static final int TILE_SIZE = 60;
 	private Scene scene;
+	boolean collisioni[][]=new boolean[33][17];
+	int y=0;
 
 	public Livello1(){
 		GridPane principale = new GridPane();
@@ -40,64 +42,82 @@ public class Livello1{
 				BufferedReader lettoreDiRighe = new BufferedReader(br);
 				){
 			String rigaLetta;
-			int y=0;
+	
 			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
 				for (int x = 0; x < rigaLetta.length(); x++) {
 					//indica la posizione del carattere da sostituire
 					char carattere = rigaLetta.charAt(x);
 					ImageView tileView = new ImageView();
+					
+					
 				
 					switch(carattere) {
 					case'a':
 						tileView.setImage(a);
+						collisioni[x][y]=true;
 						break;
 					case'b':
 						tileView.setImage(b);
+						collisioni[x][y]=true;
 						break;
 					case'c':
 						tileView.setImage(c);
+						collisioni[x][y]=true;
 						break;
 					case'd':
 						tileView.setImage(d);
+						collisioni[x][y]=true;
 						break;
 					case'e':
 						tileView.setImage(e);
+						collisioni[x][y]=true;
 						break;
 					case'h':
 						tileView.setImage(h);
+						collisioni[x][y]=true;
 						break;
 					case'i':
 						tileView.setImage(i);
+						collisioni[x][y]=true;
 						break;
 					case'l':
 						tileView.setImage(l);
+						collisioni[x][y]=true;
 						break;
 					case'm':
 						tileView.setImage(m);
+						collisioni[x][y]=true;
 						break;
 					case'n':
 						tileView.setImage(n);
+						collisioni[x][y]=true;
 						break;
 					case'o':
 						tileView.setImage(o);
+						collisioni[x][y]=true;
 						break;
 					case'p':
 						tileView.setImage(p);
+						collisioni[x][y]=true;
 						break;
 					/*case'1':
 						tileView.setImage(c1);
 						break;*/
 					case'2':
 						tileView.setImage(c2);
+						collisioni[x][y]=false;
 						break;
 					case'3':
 						tileView.setImage(c3);
+						collisioni[x][y]=false;
 						break;
 					case'4':
 						tileView.setImage(c4);
+						collisioni[x][y]=false;
 						break;
 					default:
 						tileView.setImage(c1);
+						collisioni[x][y]=false;
 					}
 					tileView.setFitWidth(TILE_SIZE);
                     tileView.setFitHeight(TILE_SIZE);
