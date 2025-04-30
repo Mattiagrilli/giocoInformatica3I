@@ -1,16 +1,17 @@
 package gioco;
 
-public class Player {
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public class Player extends ImageView {
 	
-	private int x;
-	private int y;
-	
-	public Player(int x, int y) {
+	public Player(int x, int y,String percorso) {
 		super();
-		this.x = x;
-		this.y = y;
+		this.setX(x);
+		this.setY(y);
+		Image img = new Image(getClass().getResourceAsStream(percorso));
+		this.setImage(img);
 	}
-	
 	
 
 }
