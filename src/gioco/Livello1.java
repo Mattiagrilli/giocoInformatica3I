@@ -43,15 +43,12 @@ public class Livello1{
 
 				){
 			String rigaLetta;
-	
+			
 			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
 				for (int x = 0; x < rigaLetta.length(); x++) {
 					//indica la posizione del carattere da sostituire
 					char carattere = rigaLetta.charAt(x);
 					ImageView tileView = new ImageView();
-
-					tileView.setFitWidth(500);
-					tileView.setFitHeight(500);
 					
 					switch(carattere) {
 					case'a':
