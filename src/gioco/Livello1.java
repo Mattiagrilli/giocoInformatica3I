@@ -10,6 +10,8 @@ import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -18,8 +20,19 @@ public class Livello1{
 	
 	private static final int TILE_SIZE = 60;
 	private Scene scene;
-	boolean collisioni[][]=new boolean[33][17];
+	boolean collisioni[][]=new boolean[33][18];
 	int y=0;
+	int x=0;
+	Player giocatore=new Player(1,350,"e.png");
+	//VARIABILI PER MOVIMENTO
+	double gravita=10;
+	boolean destra=false;
+	boolean sinistra=false;
+	boolean salto=false;
+	boolean scatto=false;
+	int direzione=0;
+	double inizioSalto=0;
+	
 
 	public Livello1(){
 		GridPane principale = new GridPane();
@@ -49,7 +62,7 @@ public class Livello1{
 			String rigaLetta;
 	
 			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
-				for (int x = 0; x < rigaLetta.length(); x++) {
+				for ( x = 0; x < rigaLetta.length(); x++) {
 					//indica la posizione del carattere da sostituire
 					char carattere = rigaLetta.charAt(x);
 					ImageView tileView = new ImageView();
@@ -130,24 +143,85 @@ public class Livello1{
 				}
 				y++;
 			}
+			//TIMELINE PER MOVIMENTO
 			Timeline timeline = new Timeline(new KeyFrame(
 					Duration.seconds(0.02),
 					x -> aggiornaTimer()));
 			timeline.setCycleCount(-1);
 			timeline.play();
-			Player giocatore=new Player(1,750,"personaggio1.png");
-			giocatore.setFitWidth(155);
-			giocatore.setFitHeight(155);
+			//GRANDEZZA GIOCATORE
+			giocatore.setFitWidth(60);
+			giocatore.setFitHeight(60);
+			
             gioco.getChildren().addAll(principale,giocatore);
 			scene = new Scene(gioco);
+			
+			scene.setOnKeyPressed(tast -> tastoPremuto(tast));
+			scene.setOnKeyReleased(tast -> tastoRilasciato(tast));
 
 		} catch (IOException err) {
 			err.printStackTrace();
 		}
 	}
+	//MOVIMENTO	
 	private void aggiornaTimer(){
-		
+		int xGiocatore = (int)(giocatore.getX() / TILE_SIZE);
+    	int tileSottoGiocatore = (int)((giocatore.getY() + giocatore.getFitHeight() + gravita) / TILE_SIZE);
+    	//GRAVITA'
+		if(!collisioni[xGiocatore][tileSottoGiocatore]){
+			giocatore.setY(giocatore.getY()+gravita);
+		}
+		//MOVIMENTO A DESTRA
+		if(destra) {
+			giocatore.setX(giocatore.getX()+6);
+		}
+		//MOVIMENTO A SINISTRA
+		if(sinistra) {
+			giocatore.setX(giocatore.getX()-6);
+		}
+		//SALTO
+		if(salto && collisioni[xGiocatore][tileSottoGiocatore]) {
+			while(giocatore.getY()> inizioSalto+30) {
+				giocatore.setY(giocatore.getY()-9);
+			}
+		}
+		//SCATTO
+		if(scatto) {
+			giocatore.setX(giocatore.getX()+20*direzione);
+		}
 	}
+	private void tastoPremuto(KeyEvent tasto){
+		if(tasto.getText().equals("d")) {
+			destra=true;
+			direzione=1;
+		}
+		if(tasto.getText().equals("a")) {
+			sinistra=true;			
+			direzione=-1;
+		}
+		if(tasto.getText().equals("w")) {
+			scatto=true;			 
+		}
+		if(tasto.getCode()==KeyCode.SPACE) {
+			salto=true;	
+			inizioSalto=giocatore.getY();
+		}
+	}
+	private void tastoRilasciato(KeyEvent tasto){
+		if(tasto.getText().equals("d")) {
+			destra=false;			 
+		}
+		if(tasto.getText().equals("a")) {
+			sinistra=false;			 
+		}
+		if(tasto.getText().equals("w")) {
+			scatto=false;			 
+		}
+		if(tasto.getCode()==KeyCode.SPACE) {
+			salto=false;
+		}
+	}
+	//PRENDE LA SCENA PER CARICARLA IN "FINESTRA"
 	public Scene getScene() {
 		return scene;
 	}
