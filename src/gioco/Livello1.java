@@ -25,13 +25,15 @@ public class Livello1{
 	int x=0;
 	Player giocatore=new Player(1,350,"e.png");
 	//VARIABILI PER MOVIMENTO
-	double gravita=10;
+	boolean inAria=false;
+	double gravita=13;
+	double velocitaX=10;
+	double velocitaY=0;
 	boolean destra=false;
 	boolean sinistra=false;
 	boolean salto=false;
 	boolean scatto=false;
 	int direzione=0;
-	double inizioSalto=0;
 	
 
 	public Livello1(){
@@ -144,9 +146,7 @@ public class Livello1{
 				y++;
 			}
 			//TIMELINE PER MOVIMENTO
-			Timeline timeline = new Timeline(new KeyFrame(
-					Duration.seconds(0.02),
-					x -> aggiornaTimer()));
+			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.02),x -> aggiornaTimer()));
 			timeline.setCycleCount(-1);
 			timeline.play();
 			//GRANDEZZA GIOCATORE
@@ -166,24 +166,34 @@ public class Livello1{
 	//MOVIMENTO	
 	private void aggiornaTimer(){
 		int xGiocatore = (int)(giocatore.getX() / TILE_SIZE);
+		int yGiocatore = (int)(giocatore.getY() / TILE_SIZE);
     	int tileSottoGiocatore = (int)((giocatore.getY() + giocatore.getFitHeight() + gravita) / TILE_SIZE);
+    	int tileDavantiGiocatore = (int)((giocatore.getX()+1 + giocatore.getFitWidth() ) / TILE_SIZE);
+    	int tileDietroGiocatore = (int)((giocatore.getX()-1 - giocatore.getFitWidth()) / TILE_SIZE);
+    	velocitaY += gravita;
     	//GRAVITA'
 		if(!collisioni[xGiocatore][tileSottoGiocatore]){
 			giocatore.setY(giocatore.getY()+gravita);
 		}
 		//MOVIMENTO A DESTRA
-		if(destra) {
-			giocatore.setX(giocatore.getX()+6);
+		if(destra && !collisioni[tileDavantiGiocatore][yGiocatore]) {
+			giocatore.setX(giocatore.getX()+velocitaX);
 		}
 		//MOVIMENTO A SINISTRA
-		if(sinistra) {
-			giocatore.setX(giocatore.getX()-6);
+		if(sinistra && !collisioni[tileDietroGiocatore][yGiocatore]) {
+			giocatore.setX(giocatore.getX()-velocitaX);
 		}
 		//SALTO
-		if(salto && collisioni[xGiocatore][tileSottoGiocatore]) {
-			while(giocatore.getY()> inizioSalto+30) {
-				giocatore.setY(giocatore.getY()-9);
-			}
+		
+		if(salto && !inAria) {
+			velocitaY=-65;
+			inAria=true;
+			giocatore.setY(giocatore.getY() + velocitaY);
+			giocatore.setX(giocatore.getX() + 15*direzione);
+		}
+		if(collisioni[xGiocatore][tileSottoGiocatore]) {
+			inAria=false;
+			velocitaY=0;
 		}
 		//SCATTO
 		if(scatto) {
@@ -204,15 +214,17 @@ public class Livello1{
 		}
 		if(tasto.getCode()==KeyCode.SPACE) {
 			salto=true;	
-			inizioSalto=giocatore.getY();
+			
 		}
 	}
 	private void tastoRilasciato(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
-			destra=false;			 
+			destra=false;	
+			direzione=0;
 		}
 		if(tasto.getText().equals("a")) {
-			sinistra=false;			 
+			sinistra=false;			
+			direzione=0;
 		}
 		if(tasto.getText().equals("w")) {
 			scatto=false;			 
