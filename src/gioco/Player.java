@@ -12,6 +12,4 @@ public class Player extends ImageView {
 		Image img = new Image(getClass().getResourceAsStream(percorso));
 		this.setImage(img);
 	}
-	
-
 }
