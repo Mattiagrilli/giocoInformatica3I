@@ -5,10 +5,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 public class Livello1{
 	
@@ -19,6 +23,7 @@ public class Livello1{
 
 	public Livello1(){
 		GridPane principale = new GridPane();
+		Pane gioco=new Pane();
 		Image a = new Image(getClass().getResourceAsStream("a.png"));
 		Image b = new Image(getClass().getResourceAsStream("b.png"));
 		Image c = new Image(getClass().getResourceAsStream("c.png"));
@@ -124,12 +129,24 @@ public class Livello1{
 				}
 				y++;
 			}
-			scene = new Scene(principale);
+			Timeline timeline = new Timeline(new KeyFrame(
+					Duration.seconds(0.02),
+					x -> aggiornaTimer()));
+			timeline.setCycleCount(-1);
+			timeline.play();
+			Player giocatore=new Player(1,750,"personaggio1.png");
+			giocatore.setFitWidth(155);
+			giocatore.setFitHeight(155);
+            gioco.getChildren().addAll(principale,giocatore);
+			scene = new Scene(gioco);
+
 		} catch (IOException err) {
 			err.printStackTrace();
 		}
 	}
-
+	private void aggiornaTimer(){
+		
+	}
 	public Scene getScene() {
 		return scene;
 	}

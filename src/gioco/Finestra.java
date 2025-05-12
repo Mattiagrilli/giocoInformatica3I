@@ -7,7 +7,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class Finestra extends Application {
-		
+	
 	Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
 
 	double screenWidth = screenBounds.getWidth();
@@ -20,6 +20,7 @@ public class Finestra extends Application {
 		stage.setScene(scene);
 		stage.setTitle("GiocoInformatica");
 		stage.show();
+		
 	}
 	
 
