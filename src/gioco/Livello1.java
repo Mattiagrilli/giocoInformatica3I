@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Livello1{
@@ -27,7 +28,7 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
-	Player giocatore=new Player(30,350,"idle2.png");
+	Player giocatore=new Player(30,250,"idle2.png");
 	
 	//VARIABILI PER MOVIMENTO
 	double velocitaX=10;//VELOCITà MOVIMENTO LATERALE
@@ -51,9 +52,19 @@ public class Livello1{
 	int frameCorrente = 0;
 	int frameSalto = 0;
 	
+	private Stage stage;
+	int livelloCorrente=1;
+    private String prossimoLivello;
 
-	public Livello1(){
-		
+	public Livello1(String fileLivello, Stage stage){
+		this.stage=stage;
+		if (fileLivello.equals("livello1.txt")) {
+			prossimoLivello = "livello2.txt";
+		} 
+		if (fileLivello.equals("livello2.txt")) {
+			prossimoLivello = "livello3.txt";
+		}
+
 		Idle =new Image[] {
 				new Image(getClass().getResourceAsStream("idle1.png")),
 				new Image(getClass().getResourceAsStream("idle2.png")),
@@ -129,7 +140,7 @@ public class Livello1{
 		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
 		Image c4 = new Image(getClass().getResourceAsStream("4.png"));
 		try (
-				InputStream is = Livello1.class.getResourceAsStream("\\livelli\\livello1.txt");
+				InputStream is = Livello1.class.getResourceAsStream("\\livelli\\"+fileLivello);
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				BufferedReader lettoreDiRighe = new BufferedReader(br);
@@ -297,6 +308,14 @@ public class Livello1{
 			giocatore.setX(30);
 			giocatore.setY(350);
 			velocitaY = 0;
+		}
+		int z=30;
+		if (xGiocatore >30) {
+			//System.out.println("aaaaaaaaaaaa");
+			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+	        stage.setScene(nuovoLivello.getScene());
+	        z+=30;
+	        System.out.println(z);
 		}
 	}
 	private void tastoPremuto(KeyEvent tasto){
