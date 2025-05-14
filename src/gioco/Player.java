@@ -9,8 +9,8 @@ public class Player extends ImageView {
 		super();
 		this.setX(x);
 		this.setY(y);
+		
 		Image img = new Image(getClass().getResourceAsStream(percorso));
 		this.setImage(img);
 	}
-
 }
