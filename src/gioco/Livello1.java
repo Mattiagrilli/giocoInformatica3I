@@ -20,7 +20,7 @@ public class Livello1{
 	
 	private static final int TILE_SIZE = 47;
 	private Scene scene;
-	boolean collisioni[][]=new boolean[33][20];
+	boolean collisioni[][]=new boolean[40][20];
 	int y=0;
 	int x=0;
 	
@@ -59,6 +59,12 @@ public class Livello1{
 		} 
 		if (fileLivello.equals("livello2.txt")) {
 			prossimoLivello = "livello3.txt";
+		}
+		if (fileLivello.equals("livello3.txt")) {
+			prossimoLivello = "livello4";
+		}
+		if (fileLivello.equals("livello4")) {
+			prossimoLivello = "livello5.txt";
 		}
 
 		Idle =new Image[] {
@@ -136,17 +142,15 @@ public class Livello1{
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				BufferedReader lettoreDiRighe = new BufferedReader(br);
+
 				){
 			String rigaLetta;
-
 			while( (rigaLetta = lettoreDiRighe.readLine())!=null ) {
 				for ( x = 0; x < rigaLetta.length(); x++) {
 					//indica la posizione del carattere da sostituire
 					char carattere = rigaLetta.charAt(x);
 					ImageView tileView = new ImageView();
 					
-					
-				
 					switch(carattere) {
 					/*case'a':
 						tileView.setImage(a);
