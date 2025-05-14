@@ -15,7 +15,7 @@ public class Finestra extends Application {
 	
 	@Override
 	public void start(Stage stage) {
-		Livello1 livello=new Livello1();
+		Livello1 livello=new Livello1("livello1.txt",stage);
 		Scene scene = livello.getScene();
 		stage.setScene(scene);
 		stage.setTitle("GiocoInformatica");
