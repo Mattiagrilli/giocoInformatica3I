@@ -20,7 +20,7 @@ public class Livello1{
 	
 	private static final int TILE_SIZE = 47;
 	private Scene scene;
-	boolean collisioni[][]=new boolean[40][20];
+	boolean collisioni[][]=new boolean[33][20];
 	int y=0;
 	int x=0;
 	
@@ -275,17 +275,18 @@ public class Livello1{
 		}
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
-			giocatore.setX(30);
+			giocatore.setX(20);
 			giocatore.setY(350);
 			velocitaY = 0;
 		}
 		int z=30;
-		if (xGiocatore >30) {
+		if (xGiocatore >30&& yGiocatore>17) {
 			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 	        stage.setScene(nuovoLivello.getScene());
 	        z+=30;
 		}
-		System.out.println(xGiocatore);
+		//System.out.println(posX);
+		System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
