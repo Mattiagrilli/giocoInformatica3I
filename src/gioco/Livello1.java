@@ -20,9 +20,12 @@ public class Livello1{
 	
 	private static final int TILE_SIZE = 47;
 	private Scene scene;
-	boolean collisioni[][]=new boolean[40][20];
+	boolean collisioni[][]=new boolean[33][20];
 	int y=0;
 	int x=0;
+	
+	GridPane principale = new GridPane();
+	Pane gioco=new Pane();
 	
 	//VARIABILI ANIMAZIONI GIOCATORE
 	private Image[] Idle;
@@ -41,13 +44,6 @@ public class Livello1{
 	//VARIABILI PER SALTO
 	boolean inAria=false;
 	boolean salto=false;
-	
-	//VARIABILI PER SCATTO
-	/*boolean scattoAttivato=false;
-	private boolean gravitaAbilitata = true;
-	private double tempoScatto = 0;
-	private static final double DURATA_SCATTO = 0.5;*/
-	
 	
 	int frameCorrente = 0;
 	int frameSalto = 0;
@@ -91,7 +87,6 @@ public class Livello1{
 				new Image(getClass().getResourceAsStream("corsa8.png")),
 		};
 		animSalto =new Image[] {
-				//new Image(getClass().getResourceAsStream("salto1.png")),
 				new Image(getClass().getResourceAsStream("salto2.png")),
 				new Image(getClass().getResourceAsStream("salto3.png")),
 				new Image(getClass().getResourceAsStream("salto4.png")),
@@ -127,20 +122,17 @@ public class Livello1{
 		animazioneCorsa.setCycleCount(Timeline.INDEFINITE);
 		animazioneCorsa.play();
 		
-		GridPane principale = new GridPane();
-		Pane gioco=new Pane();
+		
 		/*Image a = new Image(getClass().getResourceAsStream("a.png"));
 		Image b = new Image(getClass().getResourceAsStream("b.png"));
 		Image c = new Image(getClass().getResourceAsStream("c.png"));*/
 		Image d = new Image(getClass().getResourceAsStream("d.png"));
 		Image e = new Image(getClass().getResourceAsStream("e.png"));
 		Image h = new Image(getClass().getResourceAsStream("h.png"));
-		//Image i = new Image(getClass().getResourceAsStream("i.png"));
 		Image l = new Image(getClass().getResourceAsStream("l.png"));
 		Image m = new Image(getClass().getResourceAsStream("m.png"));
 		Image n = new Image(getClass().getResourceAsStream("n.png"));
 		Image o = new Image(getClass().getResourceAsStream("o.png"));
-		//Image p = new Image(getClass().getResourceAsStream("p.png"));
 		Image c1 = new Image(getClass().getResourceAsStream("1.png"));
 		Image c2 = new Image(getClass().getResourceAsStream("2.png"));
 		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
@@ -184,10 +176,6 @@ public class Livello1{
 						tileView.setImage(h);
 						collisioni[x][y]=true;
 						break;
-					/*case'i':
-						tileView.setImage(i);
-						collisioni[x][y]=true;
-						break;*/
 					case'l':
 						tileView.setImage(l);
 						collisioni[x][y]=true;
@@ -204,13 +192,6 @@ public class Livello1{
 						tileView.setImage(o);
 						collisioni[x][y]=true;
 						break;
-					/*case'p':
-						tileView.setImage(p);
-						collisioni[x][y]=true;
-						break;
-					case'1':
-						tileView.setImage(c1);
-						break;*/
 					case'2':
 						tileView.setImage(c2);
 						collisioni[x][y]=false;
@@ -275,7 +256,6 @@ public class Livello1{
 		} else {
 			velocitaY = 0;
 			inAria = false;
-			//scattoAttivato=false;
 		}
 
 		// Salto
@@ -286,41 +266,27 @@ public class Livello1{
 		}
 
 		// MOVIMENTO DESTRA
-		if (destra && !collisioni[tileDavantiGiocatore][yGiocatore]&& !collisioni[tileDavantiGiocatore][yGiocatore+1]) {
+		if (destra && (xGiocatore<32&&!collisioni[tileDavantiGiocatore][yGiocatore]&&  !collisioni[tileDavantiGiocatore][yGiocatore+1])) {
 			giocatore.setX(posX + velocitaX);
 		}
 		//MOVIMENTO SINISTRA
 		if (sinistra&&!collisioni[tileDietroGiocatore][yGiocatore]&& !collisioni[tileDietroGiocatore][yGiocatore+1]&&xGiocatore>0) {
 			giocatore.setX(posX - velocitaX);
 		}
-		//SCATTO
-		/*if (!scattoAttivato&&scatto && inAria&& salto) {
-	        gravitaAbilitata = false;
-	        tempoScatto = DURATA_SCATTO;
-	        giocatore.setX(giocatore.getX() + 60 * direzione);
-	        scattoAttivato=true;
-	    }
-	    if (tempoScatto > 0) {
-	        tempoScatto -= 0.02;
-	        if (tempoScatto <= 0) {
-	            gravitaAbilitata = true;
-	        }
-	    }*/
-		
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
-			giocatore.setX(30);
+			giocatore.setX(20);
 			giocatore.setY(350);
 			velocitaY = 0;
 		}
 		int z=30;
-		if (xGiocatore >30) {
-			//System.out.println("aaaaaaaaaaaa");
+		if (xGiocatore >30&& yGiocatore>17) {
 			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 	        stage.setScene(nuovoLivello.getScene());
 	        z+=30;
-	        System.out.println(z);
 		}
+		//System.out.println(posX);
+		System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
