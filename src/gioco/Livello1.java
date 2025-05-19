@@ -66,6 +66,12 @@ public class Livello1{
 		if (fileLivello.equals("livello4")) {
 			prossimoLivello = "livello5.txt";
 		}
+		if (fileLivello.equals("livello5.txt")) {
+			prossimoLivello = "livello6.txt";
+		}
+		if (fileLivello.equals("livello6.txt")) {
+			prossimoLivello = "livello7.txt";
+		}
 
 		Idle =new Image[] {
 				new Image(getClass().getResourceAsStream("idle1.png")),
@@ -129,6 +135,7 @@ public class Livello1{
 		Image d = new Image(getClass().getResourceAsStream("d.png"));
 		Image e = new Image(getClass().getResourceAsStream("e.png"));
 		Image h = new Image(getClass().getResourceAsStream("h.png"));
+		Image i = new Image(getClass().getResourceAsStream("i.png"));
 		Image l = new Image(getClass().getResourceAsStream("l.png"));
 		Image m = new Image(getClass().getResourceAsStream("m.png"));
 		Image n = new Image(getClass().getResourceAsStream("n.png"));
@@ -176,6 +183,10 @@ public class Livello1{
 						tileView.setImage(h);
 						collisioni[x][y]=true;
 						break;
+					case'i':
+						tileView.setImage(i);
+						collisioni[x][y]=true;
+						break;	
 					case'l':
 						tileView.setImage(l);
 						collisioni[x][y]=true;
@@ -280,7 +291,7 @@ public class Livello1{
 			velocitaY = 0;
 		}
 		int z=30;
-		if (xGiocatore >30&& yGiocatore>17) {
+		if (xGiocatore >30&& yGiocatore>15) {
 			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 	        stage.setScene(nuovoLivello.getScene());
 	        z+=30;
