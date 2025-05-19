@@ -31,7 +31,7 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
-	Player giocatore=new Player(30,250,"idle2.png");
+	Player giocatore=new Player(30,1,"idle2.png");
 	
 	//VARIABILI PER MOVIMENTO
 	double velocitaX=10;//VELOCITà MOVIMENTO LATERALE
@@ -129,6 +129,7 @@ public class Livello1{
 		Image d = new Image(getClass().getResourceAsStream("d.png"));
 		Image e = new Image(getClass().getResourceAsStream("e.png"));
 		Image h = new Image(getClass().getResourceAsStream("h.png"));
+		Image i = new Image(getClass().getResourceAsStream("i.png"));
 		Image l = new Image(getClass().getResourceAsStream("l.png"));
 		Image m = new Image(getClass().getResourceAsStream("m.png"));
 		Image n = new Image(getClass().getResourceAsStream("n.png"));
@@ -174,6 +175,10 @@ public class Livello1{
 						break;
 					case'h':
 						tileView.setImage(h);
+						collisioni[x][y]=true;
+						break;
+					case'i':
+						tileView.setImage(i);
 						collisioni[x][y]=true;
 						break;
 					case'l':
@@ -276,11 +281,11 @@ public class Livello1{
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
 			giocatore.setX(20);
-			giocatore.setY(350);
+			giocatore.setY(1);
 			velocitaY = 0;
 		}
 		int z=30;
-		if (xGiocatore >30&& yGiocatore>17) {
+		if (xGiocatore >30&& yGiocatore>15) {
 			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 	        stage.setScene(nuovoLivello.getScene());
 	        z+=30;
