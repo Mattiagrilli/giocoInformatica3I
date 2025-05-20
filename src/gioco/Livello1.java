@@ -49,31 +49,38 @@ public class Livello1{
 	int frameSalto = 0;
 	
 	private Stage stage;
-	int livelloCorrente=1;
     private String prossimoLivello;
+    String livelloCorrente="";
 
 	public Livello1(String fileLivello, Stage stage){
 		this.stage=stage;
 		if (fileLivello.equals("livello1.txt")) {
 			prossimoLivello = "livello2.txt";
+			livelloCorrente=fileLivello;
 		} 
 		if (fileLivello.equals("livello2.txt")) {
 			prossimoLivello = "livello3.txt";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello3.txt")) {
 			prossimoLivello = "livello4";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello4")) {
 			prossimoLivello = "livello5.txt";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello5.txt")) {
 			prossimoLivello = "livello6.txt";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello6.txt")) {
 			prossimoLivello = "livello7.txt";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello7.txt")) {
 			prossimoLivello = "livello8.txt";
+			livelloCorrente=fileLivello;
 		}
 
 
@@ -294,23 +301,28 @@ public class Livello1{
 			giocatore.setY(250);
 			velocitaY = 0;
 		}
-		if(livelloCorrente==1) {
-			if (xGiocatore ==30&& yGiocatore==13) {
+		if(livelloCorrente.equals("livello1.txt")) {
+			if (xGiocatore ==31&& yGiocatore==13) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 
 			}
 		}
-		if(livelloCorrente==1) {
-			if (xGiocatore ==30&& yGiocatore==11) {
+		if(livelloCorrente.equals("livello2.txt")) {
+			if (xGiocatore ==31&& yGiocatore==11) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
-
+			}
+		}
+		if(livelloCorrente.equals("livello3.txt")) {
+			if (xGiocatore ==31&& yGiocatore==13) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		
 		//System.out.println(posX);
-		//System.out.println(yGiocatore);
+		System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
