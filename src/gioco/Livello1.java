@@ -72,6 +72,10 @@ public class Livello1{
 		if (fileLivello.equals("livello6.txt")) {
 			prossimoLivello = "livello7.txt";
 		}
+		if (fileLivello.equals("livello7.txt")) {
+			prossimoLivello = "livello8.txt";
+		}
+
 
 		Idle =new Image[] {
 				new Image(getClass().getResourceAsStream("idle1.png")),
