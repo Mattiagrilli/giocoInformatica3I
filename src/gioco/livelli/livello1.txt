@@ -12,10 +12,6 @@
                                  
                                  
                                  
-<<<<<<< HEAD
-            lmn  lmmn           
-=======
             lmn  lmmn            
->>>>>>> 2596821764209715bc81ebbcc664a2578aee35b9
 lmmmmmmmmn  deemmeeeen    lmmmn  
 deeeeeeeeh  deeeeeeeeh    deeeh  

@@ -72,6 +72,10 @@ public class Livello1{
 		if (fileLivello.equals("livello6.txt")) {
 			prossimoLivello = "livello7.txt";
 		}
+		if (fileLivello.equals("livello7.txt")) {
+			prossimoLivello = "livello8.txt";
+		}
+
 
 		Idle =new Image[] {
 				new Image(getClass().getResourceAsStream("idle1.png")),
@@ -290,11 +294,11 @@ public class Livello1{
 			giocatore.setY(1);
 			velocitaY = 0;
 		}
-		int z=30;
+		//int z=30;
 		if (xGiocatore >30&& yGiocatore>15) {
 			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 	        stage.setScene(nuovoLivello.getScene());
-	        z+=30;
+	        //z+=30;
 		}
 		//System.out.println(posX);
 		System.out.println(yGiocatore);
