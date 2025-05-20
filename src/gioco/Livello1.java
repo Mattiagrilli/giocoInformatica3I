@@ -31,7 +31,7 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
-	Player giocatore=new Player(30,1,"idle2.png");
+	Player giocatore=new Player(30,250,"idle2.png");
 	
 	//VARIABILI PER MOVIMENTO
 	double velocitaX=10;//VELOCITà MOVIMENTO LATERALE
@@ -287,17 +287,26 @@ public class Livello1{
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
 			giocatore.setX(20);
-			giocatore.setY(1);
+			giocatore.setY(250);
 			velocitaY = 0;
 		}
-		int z=30;
-		if (xGiocatore >30&& yGiocatore>15) {
-			Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
-	        stage.setScene(nuovoLivello.getScene());
-	        z+=30;
+		if(livelloCorrente==1) {
+			if (xGiocatore ==30&& yGiocatore==13) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+
+			}
 		}
+		if(livelloCorrente==1) {
+			if (xGiocatore ==30&& yGiocatore==11) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+
+			}
+		}
+		
 		//System.out.println(posX);
-		System.out.println(yGiocatore);
+		//System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
@@ -308,9 +317,9 @@ public class Livello1{
 			sinistra=true;			
 			direzione=-1;
 		}
-		if(tasto.getText().equals("w")) {
+		/*if(tasto.getText().equals("w")) {
 			scatto=true;			 
-		}
+		}*/
 		if(tasto.getCode()==KeyCode.SPACE) {
 			salto=true;	
 			
@@ -325,9 +334,9 @@ public class Livello1{
 			sinistra=false;			
 			direzione=0;
 		}
-		if(tasto.getText().equals("w")) {
+		/*if(tasto.getText().equals("w")) {
 			scatto=false;			 
-		}
+		}*/
 		if(tasto.getCode()==KeyCode.SPACE) {
 			salto=false;
 		}
