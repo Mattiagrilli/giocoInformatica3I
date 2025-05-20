@@ -75,6 +75,12 @@ public class Livello1{
 		if (fileLivello.equals("livello7.txt")) {
 			prossimoLivello = "livello8.txt";
 		}
+		if (fileLivello.equals("livello8.txt")) {
+			prossimoLivello = "livello9.txt";
+		}
+		if (fileLivello.equals("livello9.txt")) {
+			prossimoLivello = "livello10.txt";
+		}
 
 
 		Idle =new Image[] {
@@ -119,6 +125,7 @@ public class Livello1{
 			}
 			
 		}));
+		//AVVIO ANIMAZIONE
 		animazioneIdle.setCycleCount(Timeline.INDEFINITE);
 		animazioneIdle.play();
 		
