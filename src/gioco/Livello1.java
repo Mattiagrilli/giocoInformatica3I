@@ -31,7 +31,8 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
-	Player giocatore=new Player(30,200,"idle2.png");
+	
+	Player giocatore;
 	
 	//VARIABILI PER MOVIMENTO
 	double velocitaX=7;//VELOCITà MOVIMENTO LATERALE
@@ -53,6 +54,8 @@ public class Livello1{
     String livelloCorrente="";
 
 	public Livello1(String fileLivello, Stage stage){
+		
+		
 		this.stage=stage;
 		if (fileLivello.equals("livello1.txt")) {
 			prossimoLivello = "livello2.txt";
@@ -62,16 +65,16 @@ public class Livello1{
 			prossimoLivello = "livello4";
 			livelloCorrente=fileLivello;
 		}
-		/*if (fileLivello.equals("livello3.txt")) {
-			prossimoLivello = "livello4.txt";
+		if (fileLivello.equals("livello3.txt")) {
+			prossimoLivello = "livello6.txt";
 			livelloCorrente=fileLivello;
-		}*/
+		}
 		if (fileLivello.equals("livello4")) {
 			prossimoLivello = "livello5.txt";
 			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello5.txt")) {
-			prossimoLivello = "livello6.txt";
+			prossimoLivello = "livello3.txt";
 			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello6.txt")) {
@@ -88,7 +91,13 @@ public class Livello1{
 		if (fileLivello.equals("livello9.txt")) {
 			prossimoLivello = "livello10.txt";
 		}
-
+		
+		//POSIZIONE INIZIALE GIOCATORE A SECONDA DEL LIVELLO
+		if(livelloCorrente.equals("livello3.txt")) {
+			giocatore=new Player(31*TILE_SIZE,200,"idle2.png");
+		}else {
+			giocatore=new Player(30,200,"idle2.png");
+		}
 
 		Idle =new Image[] {
 				new Image(getClass().getResourceAsStream("idle1.png")),
@@ -137,10 +146,16 @@ public class Livello1{
 		animazioneIdle.play();
 		
 		Timeline animazioneCorsa = new Timeline(new KeyFrame(Duration.millis(100), e -> {
-			if((destra||sinistra)&&!inAria) {
+			if(destra&&!inAria) {
 				frameCorrente = (frameCorrente + 1) % corsa.length;
 				giocatore.setImage(corsa[frameCorrente]);
+				 giocatore.setScaleX(1);
 			}
+			if (sinistra && !inAria) {
+		        frameCorrente = (frameCorrente + 1) % corsa.length;
+		        giocatore.setImage(corsa[frameCorrente]);
+		        giocatore.setScaleX(-1); //RIBALTA L'IMMAGINE
+		    }
 			
 		}));
 		animazioneCorsa.setCycleCount(Timeline.INDEFINITE);
@@ -157,7 +172,8 @@ public class Livello1{
 		Image l = new Image(getClass().getResourceAsStream("l.png"));
 		Image m = new Image(getClass().getResourceAsStream("m.png"));
 		Image n = new Image(getClass().getResourceAsStream("n.png"));
-		Image o = new Image(getClass().getResourceAsStream("o.png"));
+		Image p = new Image(getClass().getResourceAsStream("portale00.png"));
+		Image k = new Image(getClass().getResourceAsStream("portale01.png"));
 		Image c1 = new Image(getClass().getResourceAsStream("1.png"));
 		Image c2 = new Image(getClass().getResourceAsStream("2.png"));
 		Image c3 = new Image(getClass().getResourceAsStream("3.png"));
@@ -217,8 +233,12 @@ public class Livello1{
 						tileView.setImage(n);
 						collisioni[x][y]=true;
 						break;
-					case'o':
-						tileView.setImage(o);
+					case'p':
+						tileView.setImage(p);
+						collisioni[x][y]=false;
+						break;
+					case'k':
+						tileView.setImage(k);
 						collisioni[x][y]=false;
 						break;
 					case'2':
@@ -233,12 +253,16 @@ public class Livello1{
 						tileView.setImage(c4);
 						collisioni[x][y]=false;
 						break;
+					case'5':
+						tileView.setImage(c1);
+						collisioni[x][y]=true;
+						break;
 					default:
 						tileView.setImage(c1);
 						collisioni[x][y]=false;
 					}
 					tileView.setFitWidth(TILE_SIZE);
-                    tileView.setFitHeight(TILE_SIZE);
+					tileView.setFitHeight(TILE_SIZE);
                     principale.add(tileView, x, y);
 				}
 				y++;
@@ -247,11 +271,10 @@ public class Livello1{
 			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.02),x -> aggiornaTimer()));
 			timeline.setCycleCount(-1);
 			timeline.play();
-			
+
 			//GRANDEZZA GIOCATORE
 			giocatore.setFitWidth(70);
 			giocatore.setFitHeight(70);
-			
             gioco.getChildren().addAll(principale,giocatore);
 			scene = new Scene(gioco);
 			
@@ -334,7 +357,13 @@ public class Livello1{
 			}
 		}
 		if(livelloCorrente.equals("livello5.txt")) {
-			if (xGiocatore ==31&& yGiocatore==11) {
+			if (xGiocatore ==3&& yGiocatore==0) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello3.txt")) {
+			if (xGiocatore ==19&& yGiocatore==1) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 			}
@@ -352,7 +381,7 @@ public class Livello1{
 			}
 		}
 		if(livelloCorrente.equals("livello8.txt")) {
-			if (xGiocatore ==31&& yGiocatore==3) {
+			if (xGiocatore ==32&& yGiocatore==5) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 			}
@@ -363,7 +392,7 @@ public class Livello1{
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
-		//System.out.println(posX);
+		System.out.println(xGiocatore);
 		//System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
