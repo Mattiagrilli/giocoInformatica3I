@@ -34,7 +34,7 @@ public class Livello1{
 	Player giocatore=new Player(30,200,"idle2.png");
 	
 	//VARIABILI PER MOVIMENTO
-	double velocitaX=10;//VELOCITà MOVIMENTO LATERALE
+	double velocitaX=7;//VELOCITà MOVIMENTO LATERALE
 	double velocitaY=0;//VELOCITà MOVIMENTO VERITICALE
 	boolean destra=false;
 	boolean sinistra=false;
@@ -82,6 +82,12 @@ public class Livello1{
 			prossimoLivello = "livello8.txt";
 			livelloCorrente=fileLivello;
 		}
+		if (fileLivello.equals("livello8.txt")) {
+			prossimoLivello = "livello9.txt";
+		}
+		if (fileLivello.equals("livello9.txt")) {
+			prossimoLivello = "livello10.txt";
+		}
 
 
 		Idle =new Image[] {
@@ -126,6 +132,7 @@ public class Livello1{
 			}
 			
 		}));
+		//AVVIO ANIMAZIONE
 		animazioneIdle.setCycleCount(Timeline.INDEFINITE);
 		animazioneIdle.play();
 		
@@ -334,6 +341,24 @@ public class Livello1{
 		}
 		if(livelloCorrente.equals("livello6.txt")) {
 			if (xGiocatore ==31&& yGiocatore==4) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello7.txt")) {
+			if (xGiocatore ==31&& yGiocatore==4) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello8.txt")) {
+			if (xGiocatore ==31&& yGiocatore==3) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello9.txt")) {
+			if (xGiocatore ==31&& yGiocatore==7) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 			}
