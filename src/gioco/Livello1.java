@@ -31,7 +31,7 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
-	Player giocatore=new Player(30,250,"idle2.png");
+	Player giocatore=new Player(30,200,"idle2.png");
 	
 	//VARIABILI PER MOVIMENTO
 	double velocitaX=10;//VELOCITà MOVIMENTO LATERALE
@@ -59,13 +59,13 @@ public class Livello1{
 			livelloCorrente=fileLivello;
 		} 
 		if (fileLivello.equals("livello2.txt")) {
-			prossimoLivello = "livello3.txt";
-			livelloCorrente=fileLivello;
-		}
-		if (fileLivello.equals("livello3.txt")) {
 			prossimoLivello = "livello4";
 			livelloCorrente=fileLivello;
 		}
+		/*if (fileLivello.equals("livello3.txt")) {
+			prossimoLivello = "livello4.txt";
+			livelloCorrente=fileLivello;
+		}*/
 		if (fileLivello.equals("livello4")) {
 			prossimoLivello = "livello5.txt";
 			livelloCorrente=fileLivello;
@@ -212,7 +212,7 @@ public class Livello1{
 						break;
 					case'o':
 						tileView.setImage(o);
-						collisioni[x][y]=true;
+						collisioni[x][y]=false;
 						break;
 					case'2':
 						tileView.setImage(c2);
@@ -271,7 +271,7 @@ public class Livello1{
 		 * tileSottoGiocatore < collisioni[0].length --> EVITA EVENTUALI ERRORI NEL VETTORE
 		 * !collisioni[xGiocatore][tileSottoGiocatore]--> CONTROLLA SE LA "TILE" SOTTO IL GIOCATORE è FALSE
 		 */
-		if (tileSottoGiocatore < collisioni[0].length && !collisioni[xGiocatore][tileSottoGiocatore]) {
+		if (tileSottoGiocatore < collisioni[0].length && !collisioni[xGiocatore][tileSottoGiocatore]&& !collisioni[xGiocatore+1][tileSottoGiocatore]) {
 			velocitaY += 1;
 			giocatore.setY(posY + velocitaY);
 			inAria = true;
@@ -298,7 +298,7 @@ public class Livello1{
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
 			giocatore.setX(20);
-			giocatore.setY(250);
+			giocatore.setY(200);
 			velocitaY = 0;
 		}
 		if(livelloCorrente.equals("livello1.txt")) {
@@ -320,9 +320,26 @@ public class Livello1{
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
-		
+		if(livelloCorrente.equals("livello4")) {
+			if (xGiocatore ==31&& yGiocatore==12) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello5.txt")) {
+			if (xGiocatore ==31&& yGiocatore==11) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello6.txt")) {
+			if (xGiocatore ==31&& yGiocatore==4) {
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
 		//System.out.println(posX);
-		System.out.println(yGiocatore);
+		//System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
 		if(tasto.getText().equals("d")) {
