@@ -13,6 +13,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -52,6 +54,9 @@ public class Livello1{
 	private Stage stage;
     private String prossimoLivello;
     String livelloCorrente="";
+    //AUDIO
+    Media media = new Media(getClass().getResource("audioCorsa.mp3").toExternalForm());
+	MediaPlayer playerCorsa = new MediaPlayer(media);
 
 	public Livello1(String fileLivello, Stage stage){
 		
@@ -320,6 +325,13 @@ public class Livello1{
 		// MOVIMENTO DESTRA
 		if (destra && (xGiocatore<32&&!collisioni[tileDavantiGiocatore][yGiocatore]&&  !collisioni[tileDavantiGiocatore][yGiocatore+1])) {
 			giocatore.setX(posX + velocitaX);
+			
+		}
+		if((destra||sinistra)&&!inAria) {
+			playerCorsa.play();
+			playerCorsa.setVolume(1);
+		}else {
+			playerCorsa.stop();
 		}
 		//MOVIMENTO SINISTRA
 		if (sinistra&&!collisioni[tileDietroGiocatore][yGiocatore]&& !collisioni[tileDietroGiocatore][yGiocatore+1]&&xGiocatore>0) {
@@ -340,12 +352,6 @@ public class Livello1{
 		}
 		if(livelloCorrente.equals("livello2.txt")) {
 			if (xGiocatore ==31&& yGiocatore==11) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
-		        stage.setScene(nuovoLivello.getScene());
-			}
-		}
-		if(livelloCorrente.equals("livello3.txt")) {
-			if (xGiocatore ==31&& yGiocatore==13) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 			}
@@ -381,7 +387,7 @@ public class Livello1{
 			}
 		}
 		if(livelloCorrente.equals("livello8.txt")) {
-			if (xGiocatore ==32&& yGiocatore==5) {
+			if (xGiocatore ==31&& yGiocatore==5) {
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
 		        stage.setScene(nuovoLivello.getScene());
 			}
