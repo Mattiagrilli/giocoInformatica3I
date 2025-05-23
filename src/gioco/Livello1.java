@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -20,7 +21,7 @@ import javafx.util.Duration;
 
 public class Livello1{
 	
-	private static final int TILE_SIZE = 47;
+	private static final int grandezzaTile = 47;
 	private Scene scene;
 	boolean collisioni[][]=new boolean[33][20];
 	int y=0;
@@ -33,7 +34,10 @@ public class Livello1{
 	private Image[] Idle;
 	private Image[] corsa;
 	private Image[] animSalto;
+	int frameCorrente = 0;
+	int frameSalto = 0;
 	
+	//GIOCATORE
 	Player giocatore;
 	
 	//VARIABILI PER MOVIMENTO
@@ -47,21 +51,48 @@ public class Livello1{
 	//VARIABILI PER SALTO
 	boolean inAria=false;
 	boolean salto=false;
-	
-	int frameCorrente = 0;
-	int frameSalto = 0;
-	
+
+	//VARIABILI CAMBIO LIVELLO
 	private Stage stage;
     private String prossimoLivello;
     String livelloCorrente="";
+    
     //AUDIO
-    Media media = new Media(getClass().getResource("audioCorsa.mp3").toExternalForm());
-	MediaPlayer playerCorsa = new MediaPlayer(media);
-
-	public Livello1(String fileLivello, Stage stage){
-		
-		
+    private MediaPlayer playerMusica;
+    
+    private AudioClip[] suonoPassi; 
+    private int suonoCorrente = 0; 
+    private double tempoUltimoPasso = 0; // Per controllare il ritmo
+    private static final double ritardoPassi = 300; // Ritardo tra un passo e l'altro
+    private AudioClip suonoSalto=new AudioClip(getClass().getResource("salto.wav").toExternalForm()); 
+   
+    
+  //TIMELINE PER MOVIMENTO
+	Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.02),x -> aggiornaTimer()));
+	
+	
+	public Livello1(String fileLivello, Stage stage, MediaPlayer musicaDiSottofondo){	
 		this.stage=stage;
+		
+		this.playerMusica = musicaDiSottofondo;
+		suonoSalto.setVolume(0.3);
+		 
+		timeline.setCycleCount(-1);
+		timeline.play();
+
+		
+		try {
+	        suonoPassi = new AudioClip[]{
+	            new AudioClip(getClass().getResource("passo1.wav").toExternalForm()),
+	            new AudioClip(getClass().getResource("passo2.wav").toExternalForm()) 
+	        };
+	        for (AudioClip clip : suonoPassi) {
+	            clip.setVolume(0.2); 
+	        }
+	    } catch (Exception e) {
+	        System.err.println("Errore caricamento suoni passi: " + e.getMessage());
+	    }
+		
 		if (fileLivello.equals("livello1.txt")) {
 			prossimoLivello = "livello2.txt";
 			livelloCorrente=fileLivello;
@@ -99,7 +130,7 @@ public class Livello1{
 		
 		//POSIZIONE INIZIALE GIOCATORE A SECONDA DEL LIVELLO
 		if(livelloCorrente.equals("livello3.txt")) {
-			giocatore=new Player(31*TILE_SIZE,200,"idle2.png");
+			giocatore=new Player(31*grandezzaTile,200,"idle2.png");
 		}else {
 			giocatore=new Player(30,200,"idle2.png");
 		}
@@ -166,10 +197,6 @@ public class Livello1{
 		animazioneCorsa.setCycleCount(Timeline.INDEFINITE);
 		animazioneCorsa.play();
 		
-		
-		/*Image a = new Image(getClass().getResourceAsStream("a.png"));
-		Image b = new Image(getClass().getResourceAsStream("b.png"));
-		Image c = new Image(getClass().getResourceAsStream("c.png"));*/
 		Image d = new Image(getClass().getResourceAsStream("d.png"));
 		Image e = new Image(getClass().getResourceAsStream("e.png"));
 		Image h = new Image(getClass().getResourceAsStream("h.png"));
@@ -198,18 +225,6 @@ public class Livello1{
 					ImageView tileView = new ImageView();
 					
 					switch(carattere) {
-					/*case'a':
-						tileView.setImage(a);
-						collisioni[x][y]=true;
-						break;
-					case'b':
-						tileView.setImage(b);
-						collisioni[x][y]=true;
-						break;
-					case'c':
-						tileView.setImage(c);
-						collisioni[x][y]=true;
-						break;*/
 					case'd':
 						tileView.setImage(d);
 						collisioni[x][y]=true;
@@ -266,16 +281,13 @@ public class Livello1{
 						tileView.setImage(c1);
 						collisioni[x][y]=false;
 					}
-					tileView.setFitWidth(TILE_SIZE);
-					tileView.setFitHeight(TILE_SIZE);
+					tileView.setFitWidth(grandezzaTile);
+					tileView.setFitHeight(grandezzaTile);
                     principale.add(tileView, x, y);
 				}
 				y++;
 			}
-			//TIMELINE PER MOVIMENTO
-			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.02),x -> aggiornaTimer()));
-			timeline.setCycleCount(-1);
-			timeline.play();
+			
 
 			//GRANDEZZA GIOCATORE
 			giocatore.setFitWidth(70);
@@ -293,14 +305,15 @@ public class Livello1{
 	
 	//MOVIMENTO	
 	private void aggiornaTimer(){
+		
 		double posX = giocatore.getX();
 		double posY = giocatore.getY();
 
-		int xGiocatore = (int)(posX / TILE_SIZE);
-		int yGiocatore = (int)(posY / TILE_SIZE);
-		int tileSottoGiocatore = (int)((posY + giocatore.getFitHeight()) / TILE_SIZE);
-		int tileDavantiGiocatore = (int)((posX + (giocatore.getFitWidth()-23))/ TILE_SIZE);
-		int tileDietroGiocatore = (int)((posX+23) / TILE_SIZE);
+		int xGiocatore = (int)(posX / grandezzaTile);
+		int yGiocatore = (int)(posY / grandezzaTile);
+		int tileSottoGiocatore = (int)((posY + giocatore.getFitHeight()) / grandezzaTile);
+		int tileDavantiGiocatore = (int)((posX + (giocatore.getFitWidth()-23))/ grandezzaTile);
+		int tileDietroGiocatore = (int)((posX+23) / grandezzaTile);
 
 		/**GRAVITA
 		 * tileSottoGiocatore < collisioni[0].length --> EVITA EVENTUALI ERRORI NEL VETTORE
@@ -320,6 +333,7 @@ public class Livello1{
 			velocitaY = -15;
 			inAria = true;
 			giocatore.setY(posY + velocitaY);
+			suonoSalto.play();
 		}
 
 		// MOVIMENTO DESTRA
@@ -327,15 +341,24 @@ public class Livello1{
 			giocatore.setX(posX + velocitaX);
 			
 		}
-		if((destra||sinistra)&&!inAria) {
-			playerCorsa.play();
-			playerCorsa.setVolume(1);
-		}else {
-			playerCorsa.stop();
-		}
 		//MOVIMENTO SINISTRA
 		if (sinistra&&!collisioni[tileDietroGiocatore][yGiocatore]&& !collisioni[tileDietroGiocatore][yGiocatore+1]&&xGiocatore>0) {
 			giocatore.setX(posX - velocitaX);
+		}
+		// AUDIO PASSI
+		if ((destra || sinistra) && !inAria) {
+			double tempoCorrente = System.currentTimeMillis();
+			// Controlla se è passato abbastanza tempo dall'ultimo passo
+			if (tempoCorrente - tempoUltimoPasso > ritardoPassi) {
+				if (suonoPassi != null && suonoPassi.length > 0) {
+					suonoPassi[suonoCorrente].play();
+					// Passa al suono successivo per la variazione
+					suonoCorrente = (suonoCorrente + 1) % suonoPassi.length;
+					tempoUltimoPasso = tempoCorrente;
+				}
+			}
+		} else {
+			tempoUltimoPasso = 0;
 		}
 		// RESET
 		if (tileSottoGiocatore >= collisioni[0].length) {
@@ -343,62 +366,72 @@ public class Livello1{
 			giocatore.setY(200);
 			velocitaY = 0;
 		}
+		//CONTROLLA IL LIVELLO CORRENTE E IMPOSTA IL BLOCCO D'USCITA
 		if(livelloCorrente.equals("livello1.txt")) {
 			if (xGiocatore ==31&& yGiocatore==13) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 
 			}
 		}
 		if(livelloCorrente.equals("livello2.txt")) {
 			if (xGiocatore ==31&& yGiocatore==11) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello4")) {
 			if (xGiocatore ==31&& yGiocatore==12) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello5.txt")) {
 			if (xGiocatore ==3&& yGiocatore==0) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello3.txt")) {
 			if (xGiocatore ==19&& yGiocatore==1) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello6.txt")) {
 			if (xGiocatore ==31&& yGiocatore==4) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello7.txt")) {
 			if (xGiocatore ==31&& yGiocatore==4) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello8.txt")) {
 			if (xGiocatore ==31&& yGiocatore==5) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello9.txt")) {
 			if (xGiocatore ==31&& yGiocatore==7) {
-				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage);
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
-		System.out.println(xGiocatore);
+		//System.out.println(xGiocatore);
 		//System.out.println(yGiocatore);
 	}
 	private void tastoPremuto(KeyEvent tasto){
@@ -410,12 +443,8 @@ public class Livello1{
 			sinistra=true;			
 			direzione=-1;
 		}
-		/*if(tasto.getText().equals("w")) {
-			scatto=true;			 
-		}*/
 		if(tasto.getCode()==KeyCode.SPACE) {
-			salto=true;	
-			
+			salto=true;		
 		}
 	}
 	private void tastoRilasciato(KeyEvent tasto){
@@ -427,12 +456,25 @@ public class Livello1{
 			sinistra=false;			
 			direzione=0;
 		}
-		/*if(tasto.getText().equals("w")) {
-			scatto=false;			 
-		}*/
 		if(tasto.getCode()==KeyCode.SPACE) {
 			salto=false;
 		}
+	}
+	//SERVE PER FERMARE I SUONI QUANDI SI CAMBIA LIVELLO EVITANDO CHE SI RIPETANO
+	public void fermaSuoni() {
+		if (suonoPassi != null) {
+			for (AudioClip clip : suonoPassi) {
+				if (clip != null) {
+					if (clip.isPlaying()) {
+						clip.stop();
+					}
+				}
+			}
+		}
+		 if (timeline != null) {
+		        timeline.stop();
+		        timeline = null;
+		    }
 	}
 	//PRENDE LA SCENA PER CARICARLA IN "FINESTRA"
 	public Scene getScene() {
