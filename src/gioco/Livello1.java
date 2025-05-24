@@ -14,7 +14,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -101,16 +100,16 @@ public class Livello1{
 			prossimoLivello = "livello4";
 			livelloCorrente=fileLivello;
 		}
-		if (fileLivello.equals("livello3.txt")) {
-			prossimoLivello = "livello6.txt";
-			livelloCorrente=fileLivello;
-		}
 		if (fileLivello.equals("livello4")) {
 			prossimoLivello = "livello5.txt";
 			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello5.txt")) {
 			prossimoLivello = "livello3.txt";
+			livelloCorrente=fileLivello;
+		}
+		if (fileLivello.equals("livello3.txt")) {
+			prossimoLivello = "livello6.txt";
 			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello6.txt")) {
@@ -123,9 +122,26 @@ public class Livello1{
 		}
 		if (fileLivello.equals("livello8.txt")) {
 			prossimoLivello = "livello9.txt";
+			livelloCorrente=fileLivello;
 		}
 		if (fileLivello.equals("livello9.txt")) {
 			prossimoLivello = "livello10.txt";
+			livelloCorrente=fileLivello;
+		}
+		if (fileLivello.equals("livello10.txt")) {
+			prossimoLivello = "livello11.txt";
+			livelloCorrente=fileLivello;
+		}
+		if (fileLivello.equals("livello11.txt")) {
+			prossimoLivello = "livello12.txt";
+			livelloCorrente=fileLivello;
+		}
+		if (fileLivello.equals("livello12.txt")) {
+			prossimoLivello = "livello13.txt";
+			livelloCorrente=fileLivello;
+		}
+		if (fileLivello.equals("livello13.txt")) {
+			livelloCorrente=fileLivello;
 		}
 		
 		//POSIZIONE INIZIALE GIOCATORE A SECONDA DEL LIVELLO
@@ -361,10 +377,20 @@ public class Livello1{
 			tempoUltimoPasso = 0;
 		}
 		// RESET
-		if (tileSottoGiocatore >= collisioni[0].length) {
-			giocatore.setX(20);
-			giocatore.setY(200);
-			velocitaY = 0;
+		if(livelloCorrente.equals("livello3.txt")) {
+			if (tileSottoGiocatore >= collisioni[0].length) {
+				giocatore.setX(31*grandezzaTile);
+				giocatore.setY(200);
+				velocitaY=0;
+			}
+			
+		}else{
+			if (tileSottoGiocatore >= collisioni[0].length) {
+				giocatore.setX(20);
+				giocatore.setY(200);
+				velocitaY = 0;
+			}
+			
 		}
 		//CONTROLLA IL LIVELLO CORRENTE E IMPOSTA IL BLOCCO D'USCITA
 		if(livelloCorrente.equals("livello1.txt")) {
@@ -418,17 +444,45 @@ public class Livello1{
 			}
 		}
 		if(livelloCorrente.equals("livello8.txt")) {
-			if (xGiocatore ==31&& yGiocatore==5) {
+			if (xGiocatore ==32&& yGiocatore==8) {
 				this.fermaSuoni();
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
 			}
 		}
 		if(livelloCorrente.equals("livello9.txt")) {
-			if (xGiocatore ==31&& yGiocatore==7) {
+			if (xGiocatore ==30&& yGiocatore==7) {
 				this.fermaSuoni();
 				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
 		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello10.txt")) {
+			if (xGiocatore ==31&& yGiocatore==1) {
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello11.txt")) {
+			if (xGiocatore ==32&& yGiocatore==7) {
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello12.txt")) {
+			if (xGiocatore ==32&& yGiocatore==2) {
+				this.fermaSuoni();
+				Livello1 nuovoLivello = new Livello1(prossimoLivello, stage, playerMusica);
+		        stage.setScene(nuovoLivello.getScene());
+			}
+		}
+		if(livelloCorrente.equals("livello13.txt")) {
+			if (xGiocatore ==20&& yGiocatore==3) {
+				this.fermaSuoni();
+				SchermataFinale fine = new SchermataFinale(stage, playerMusica);
+		        stage.setScene(fine.getScene());
 			}
 		}
 		//System.out.println(xGiocatore);

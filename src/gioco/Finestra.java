@@ -28,8 +28,8 @@ public class Finestra extends Application {
 
 		} catch (Exception e) {
 		}
-		Livello1 livello=new Livello1("livello1.txt",stage, playerMusica);
-		Scene scene = livello.getScene();
+		Menu menu = new Menu(stage, playerMusica);
+	    Scene scene = menu.getScene();
 		stage.setScene(scene);
 		stage.setTitle("GiocoInformatica");
 		stage.show();
